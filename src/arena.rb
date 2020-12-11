@@ -25,6 +25,6 @@ CRITICAL_HIT = 20
 player = Player.new(100)
 
 encounter = Enemy1.new(encounter1)
-puts encounter
 
-puts :name
+player.show_player_health
+encounter.show_enemy_health

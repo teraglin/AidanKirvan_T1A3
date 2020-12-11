@@ -1,5 +1,7 @@
-require_relative 'dice.rb'
-require_relative 'enemy.rb'
+# require_relative 'dice.rb'
+# require_relative 'enemy.rb'
+# require_relative 'arena.rb'
+
 
 class Player
     def initialize(health)
@@ -8,14 +10,18 @@ class Player
         @player_ac = 10
     end
 
+    def show_player_health()
+        puts "Player: #{@player_current_health} / #{@player_health}"
+    end
+
     def player_damage(dice)
         score = dice[0]
         return score
     end
 
-    def gets_hit(enemy_attack)
+    def player_gets_hit(enemy_attack)
         if enemy_attack >= @player_ac
-            @player_health -= @enemy_damage
+            @player_current_health -= @enemy_damage
         end
     end
 

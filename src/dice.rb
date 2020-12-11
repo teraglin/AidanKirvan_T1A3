@@ -1,13 +1,7 @@
-require_relative 'arena.rb'
-require_relative 'player.rb'
-require_relative 'enemy.rb'
+# require_relative 'arena.rb'
+# require_relative 'player.rb'
+# require_relative 'enemy.rb'
 
-def roll(dice)
-    result = rand(dice[0])
-    return result
-end
-
-puts roll(D20)
 class Dice
 
     def roll(dice)

@@ -1,5 +1,6 @@
-require_relative 'dice.rb'
-require_relative 'arena.rb'
+# require_relative 'dice.rb'
+# require_relative 'arena.rb'
+# require_relative 'player.rb'
 # require_relative 'player.rb'
 
 
@@ -13,18 +14,33 @@ require_relative 'arena.rb'
 
 class Enemy1
     def initialize(encounter)
-        @encounter = encounter
-        @foe_choice = encounter[rand(@encounter.length - 1)]
+        @foe_choice = encounter[rand(encounter.length)]
         @foe_name = @foe_choice[:name]
         @foe_health = @foe_choice[:health]
-        @foe_armour = @foe_choice[:armour]
+        @foe_current_health = @foe_choice[:health]
+        @foe_ac = @foe_choice[:armour]
         @foe_damage = @foe_choice[:damage]
         @foe_special = @foe_choice[:special]
     end
 
-    def to_s
-        puts "#{@foe_name} has health:#{@foe_health}"
+    def show_enemy_health()
+        puts "#{@foe_name}: #{@foe_current_health} / #{@foe_health}"
     end
+
+    def enemy_damage(dice)
+        score = dice[0]
+        return score
+    end
+
+    def enemy_gets_hit(player_attack)
+        if player_attack >= @foe_ac
+            @foe_current_health -= @player_damage
+        end
+    end
+
+    # def to_s
+    #     puts "#{@foe_name} has health:#{@foe_health}"
+    # end
 end
 
 # class Special
