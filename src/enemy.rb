@@ -27,15 +27,13 @@ class Enemy1
         puts "#{@foe_name}: #{@foe_current_health} / #{@foe_health}"
     end
 
-    def enemy_damage(dice)
-        score = dice[0]
+    def enemy_damage()
+        score = @foe_damage
         return score
     end
 
-    def enemy_gets_hit(player_attack)
-        if player_attack >= @foe_ac
-            @foe_current_health -= @player_damage
-        end
+    def enemy_gets_hit(player_damage)
+        @foe_current_health -= player_damage
     end
 
     # def to_s

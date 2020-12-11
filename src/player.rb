@@ -20,17 +20,21 @@ class Player
     end
 
     def player_gets_hit(enemy_attack)
-        if enemy_attack >= @player_ac
-            @player_current_health -= @enemy_damage
+            @player_current_health -= enemy_damage
+        end
+    end
+
+    def player_healed(dice)
+        @healing_value = (dice[] + dice[])
+        @player_current_health += @healing_value
+        if @player_current_health > @player_health
+            @player_current_health = @player_health
         end
     end
 
     def gain_amour(amount)
         @armour_class += amount
     end
-
-
-
 end
 
 # tim = Player.new(100)
