@@ -1,7 +1,11 @@
 class Combat
+    
+    def initialize(prompt)
+        @prompt = prompt
+    end
 
     def fight_menu
-        @fight_input = prompt.select('What would you like to do?') do |menu|
+        @fight_input = @prompt.select('What would you like to do?') do |menu|
             menu.choice "ATTACK"
             menu.choice "BLOCK"
             menu.choice "HEAL"
@@ -9,7 +13,7 @@ class Combat
         end
 
         if @fight_input == "ATTACK"
-            @fight_choice = prompt.select('What is your plan of attack?') do |menu|
+            @fight_choice = @prompt.select('What is your plan of attack?') do |menu|
                 menu.choice "BALANCED"
                 menu.choice "RECKLESS"
                 menu.choice "DEFENSIVE"
@@ -22,6 +26,10 @@ class Combat
         end
 
         if @fight_choice == "BACK"
-            Combat.fight_menu
+            system('clear')
+            self.fight_menu
+        end
+        
+        return @fight_choice
     end
 end

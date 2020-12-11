@@ -13,14 +13,16 @@
 
 
 class Enemy1
+
+    attr_reader :foe_name, :foe_health, :foe_current_health, :foe_ac, :foe_damage
+
     def initialize(encounter)
         @foe_choice = encounter[rand(encounter.length)]
         @foe_name = @foe_choice[:name]
         @foe_health = @foe_choice[:health]
-        @foe_current_health = @foe_choice[:health]
+        @foe_current_health = @foe_health
         @foe_ac = @foe_choice[:armour]
         @foe_damage = @foe_choice[:damage]
-        @foe_special = @foe_choice[:special]
     end
 
     def show_enemy_health()

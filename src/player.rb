@@ -4,10 +4,13 @@
 
 
 class Player
+
+    attr_reader :player_healing_value, :player_current_health, :player_ac
+
     def initialize(health)
         @player_health = health
         @player_current_health = health
-        @player_ac = 10
+        @player_ac = 12
     end
 
     def show_player_health()
@@ -21,7 +24,6 @@ class Player
 
     def player_gets_hit(enemy_attack)
             @player_current_health -= enemy_damage
-        end
     end
 
     def player_healed(dice)

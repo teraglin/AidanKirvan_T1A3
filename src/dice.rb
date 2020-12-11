@@ -3,6 +3,9 @@
 # require_relative 'enemy.rb'
 
 class Dice
+    def initialize(prompt)
+        @prompt = prompt
+    end
 
     def roll(dice)
         result = rand(dice[0])
