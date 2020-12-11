@@ -1,10 +1,10 @@
-d4 = [1..4]
-d6 = [1..6]
-d8 = [1..8]
-d10 = [1..10]
-d12 = [1.. 2]
-d100 = [1..100]
-d20 = [1..20]
+D4 = [1..4]
+D6 = [1..6]
+D8 = [1..8]
+D10 = [1..10]
+D12 = [1.. 2]
+D100 = [1..100]
+D20 = [1..20]
 
 CRITICAL_HIT = 20
 
@@ -13,8 +13,8 @@ def roll(dice)
     return result
 end
 
-puts roll(d20)
-class dice
+puts roll(D20)
+class Dice
 
     def roll(dice)
         result = rand(dice[0])
