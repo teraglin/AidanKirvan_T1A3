@@ -1,4 +1,5 @@
 require_relative 'dice.rb'
+require_relative 'arena.rb'
 # require_relative 'player.rb'
 
 
@@ -9,12 +10,6 @@ require_relative 'dice.rb'
 #     skeleton = {name: 'skeleton',:health=>20, :armour=>10, :damage=>D6, :special=>Special.multiattack}
 # ]
 
-encounter1 = [
-    goblin = {name: 'goblin',:health=>20, :armour=>11, :damage=>D6}, 
-    bullywug = {name: 'bullywug',:health=>20, :armour=>11, :damage=>D6}, 
-    kobald = {name: 'kobald',:health=>15, :armour=>8, :damage=>D4}, 
-    skeleton = {name: 'skeleton',:health=>20, :armour=>10, :damage=>D6}
-]
 
 class Enemy1
     def initialize(encounter)
@@ -38,8 +33,6 @@ end
 #     end
 # end
 
-encounter = Enemy1.new(encounter1)
-puts encounter
 
 # puts Enemy1.initialize(encounter1)
 

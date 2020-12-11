@@ -1,12 +1,6 @@
-D4 = [1..4]
-D6 = [1..6]
-D8 = [1..8]
-D10 = [1..10]
-D12 = [1.. 2]
-D100 = [1..100]
-D20 = [1..20]
-
-CRITICAL_HIT = 20
+require_relative 'arena.rb'
+require_relative 'player.rb'
+require_relative 'enemy.rb'
 
 def roll(dice)
     result = rand(dice[0])
