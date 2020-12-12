@@ -29,50 +29,16 @@ class Interface
         return @menu_input
     end
 
+    def victory
+        system('clear')
+        puts "The final foe falls before you!"
+        puts "The crowd erupts into cheer!"
+        puts "Congratulations! You are victorious!"
+        @prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+        system('clear')
+        puts "You return to your cell and the gate closes."
+        @prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+        exit
+    end
 
 end
-
-
-# class Combat
-    
-#     attr_reader :fight_choice
-
-#     def initialize(prompt)
-#         @prompt = prompt
-#     end
-
-
-
-
-#     def fight_menu
-#         @fight_input = @prompt.select('What would you like to do?') do |menu|
-#             menu.choice "ATTACK"
-#             menu.choice "BLOCK"
-#             menu.choice "HEAL"
-#             menu.choice "SURRENDER"
-#         end
-
-#         if @fight_input == "ATTACK"
-
-#             @fight_choice = @prompt.select('What is your plan of attack?') do |menu|
-#                 menu.choice "BALANCED"
-#                 menu.choice "RECKLESS"
-#                 menu.choice "DEFENSIVE"
-#                 menu.choice "BACK"
-#             end
-
-#         elsif @fight_input == "HEAL"
-#             @fight_choice = "HEALING"
-#         elsif @fight_input == "BLOCK"
-#             @fight_choice = "BLOCKING"
-#         elsif @fight_input == "SURRENDER"
-
-#         end
-
-#         if @fight_choice == "BACK"
-#             system('clear')
-#             self.fight_menu
-#         end
-
-#     end
-# end
