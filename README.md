@@ -164,6 +164,7 @@ Musing include:
 
 ## DIAGRAM
 
+![alt text](./docs/monster_brawl_diag.png "flow chart for monster brawl")
 <!-- Flow control diagram
 - must show logic/workflow and/or the integration of the features in your application for each feature
 - utilise a recognised format or set of conventions for a control flow diagram such as UML -->
