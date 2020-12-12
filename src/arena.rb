@@ -28,21 +28,40 @@ enemy_roll_3 = encounter_table_1[rand(encounter_table_1.length)]
 
 CRITICAL_HIT = 20
 HEALTH_MAX = 50
+victory_points = 0
 run = true
+monster = nil
 
+# initiate objects 
 dice = Dice.new(prompt)
 player = Player.new
-enemy1 = Enemy.new(enemy_roll_1)
-enemy2 = Enemy.new(enemy_roll_2)
-enemy3 = Enemy.new(enemy_roll_3)
+monster1 = Enemy.new(enemy_roll_1)
+monster2 = Enemy.new(enemy_roll_2)
+monster3 = Enemy.new(enemy_roll_3)
 combat = Interface.new(prompt)
 
+
+# clear terminal 
 system('clear')
 
+# NAME PROMPT HERE 
+
 while run
+
+    case victory_points
+    when == 3
+        # run victory method 
+    when == 2
+        monster = monster3
+    when == 1
+        monster = monster2
+    else
+        monster = monster1
+    end
+
     while run
         player.print_player_health
-        enemy1.print_enemy_health
+        monster.print_enemy_health
 
         # class for menu 
         # get value
@@ -95,32 +114,37 @@ while run
         heal_value = Dice.roll(D8) + Dice.roll(D8)
         player.heal(heal_value)
         player.print_player_health
-        enemy1.print_enemy_health
+        monster.print_enemy_health
         puts "you healed for #{heal_value}."
     elsif player_to_hit == "blocking"
         player.print_player_health
-        enemy1.print_enemy_health
+        monster.print_enemy_health
         puts "You shield yourself with magic."
     elsif player_to_hit == CRITICAL_HIT
         player_damage_score = player.damage
         player_damage = Dice.roll(player.damage) + Dice.roll(player.damage)
-        enemy1.enemy_gets_hit(player_damage)
+        monster.enemy_gets_hit(player_damage)
         player.print_player_health
-        enemy1.print_enemy_health
+        monster.print_enemy_health
         puts "CRITICAL HIT!!"
-        puts "You dealt #{player_damage} to the #{enemy1.mon_name}"
-    elsif player_to_hit >= enemy1.armour_class
+        puts "You dealt #{player_damage} to the #{monster.mon_name}"
+    elsif player_to_hit >= monster.armour_class
         player_damage = Dice.roll(player.damage)
-        enemy1.enemy_gets_hit(player_damage)
+        monster.enemy_gets_hit(player_damage)
         player.print_player_health
-        enemy1.print_enemy_health
+        monster.print_enemy_health
         puts "WHACK!!"
-        puts "You dealt #{player_damage} to the #{enemy1.mon_name}"
+        puts "You dealt #{player_damage} to the #{monster.mon_name}"
     else
         puts "Shoot!!"
         puts "You missed!"
     end
 
+    prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+    system('clear')
+    player.print_player_health
+    monster.print_enemy_health
+    puts "Now it's the monster's turn."
 
 
 

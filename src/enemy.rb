@@ -90,7 +90,7 @@ end
 # # end
 
 
-# # puts Enemy1.initialize(encounter1)
+# # puts monster.initialize(encounter1)
 
 # # goblin
 # # - hp

@@ -60,7 +60,7 @@ eg.
         puts roll(D20)
 
 
-- **CERTAIN MECHANICS FROM DND 5e:**
+- **SELECT MECHANICS FROM DND 5e:**
 **An Explanation of the Concepts:**
 The first thing to address here is the core flow of combat in D&D5e. In simpler terms, the player characters and enemies take turns to use their movement, an action and a bonus action. Player characters are controlled individually by each player, while the enemy encounters are controlled by the Dungeon Master who runs the game. For this project I am ignoring movement and bonus actions.
 *The key components for making an attack are:*
@@ -135,8 +135,9 @@ SHALL I DO DIFFERENT PAGES OR CLASSES??
 USE TTY
 - **VISIBLE HEALTH SCORES FOR THE USER AND THE ENEMY:**
 USE system('clear') and tty
-- **A RANDOMISED SLECTION OF ITEMS:**
+- **RANDOMISED ITEMS:**
 array? Module?
+- **SPECIAL ATTACKS:**
 <!--
 Must list and describe at least THREE features
 
