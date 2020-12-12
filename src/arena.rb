@@ -28,6 +28,8 @@ enemy_roll_3 = encounter_table_1[rand(encounter_table_1.length)]
 
 CRITICAL_HIT = 20
 HEALTH_MAX = 50
+FLASK_MAX = 3
+SHIELD_MAX = 3
 victory_points = 0
 run = true
 
@@ -53,27 +55,56 @@ while run
     # introduce monster 
     puts "The gate opens and you see a #{monster.mon_name}"
 
-    prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
     while run
         system('clear')
+        player.flask_cooldown
+        player.shield_cooldown
 
         while run
             player.print_player_health
             monster.print_enemy_health
 
+            
+
+            # SHIELD COUNTER METHOD
+            
+            # HEAL COUNTER METHOD 
+            # puts player.flask
+            # puts player.shield
+
             # class for menu 
             # get value
             menu_input = combat.action_menu
 
-            # are you quitting? -> method? class?
-            if menu_input == "SURRENDER"
+            # flask and shield need to be in player class!!!  
+            # MENU CHECKPOINT
+            if menu_input == "BLOCK"
+                if player.shield > 0
+                    system('clear')
+                    menu_input = "RETURN"
+                    puts "You need to wait #{player.shield} more turn(s) for your flask to refill."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                else
+                    break
+                end
+            elsif menu_input == "HEAL"
+                if player.flask > 0
+                    system('clear')
+                    menu_input = "RETURN"
+                    puts "You need to wait #{player.flask} more turn(s) to cast shield again"
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                else
+                    break
+                end
+            elsif menu_input == "SURRENDER"
                 system('clear')
                 menu_input = prompt.select('Are you sure you want to surrender? (You will return to the menu and lose your progress)') do |menu|
                     menu.choice "GET ME OUTTA HERE!!"
                     menu.choice "I WON'T GIVE UP"
                 end
-    
+                
                 if menu_input == "GET ME OUTTA HERE!!"
                     system('clear')
                     puts "You toss down your weapon and raise your hands in defeat..."
@@ -81,12 +112,12 @@ while run
                     prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
                     exit
                 else
-                    menu_input = "BACK"
+                    menu_input = "RETURN"
                 end
             end
 
             # return from sub-menus
-            if menu_input == "BACK"
+            if menu_input == "RETURN"
                 system('clear')
             else
                 break
@@ -110,12 +141,14 @@ while run
         system('clear')
 
         if player_to_hit == "healing"
+            player.use_flask
             heal_value = Dice.roll(D8) + Dice.roll(D8)
             player.heal(heal_value)
             player.print_player_health
             monster.print_enemy_health
             puts "you healed for #{heal_value}."
         elsif player_to_hit == "blocking"
+            player.use_shield
             player.print_player_health
             monster.print_enemy_health
             puts "You shield yourself with magic."
@@ -139,14 +172,14 @@ while run
             puts "You missed!"
         end
 
-        prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+        prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
         # CHECK FOR VICTORY/NEW MONSTER 
         if monster.health <= 0
             system('clear')
             victory_points +=1
             puts "You defeat the #{monster.mon_name}!!"
-            prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
             # CHOOSE ITEM clas.method? 
 
@@ -166,7 +199,7 @@ while run
             player.print_player_health
             monster.print_enemy_health
             puts "Now it's the #{monster.mon_name}'s' turn."
-            prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
         end
         
         case menu_input
@@ -206,19 +239,21 @@ while run
             player.player_gets_hit(monster_damage)
             player.print_player_health
             monster.print_enemy_health
+            puts monster_to_hit
             puts "OOF!"
             puts "You take #{monster_damage} points of damage."
         else
             puts "Phew!!"
             puts "The #{monster.mon_name} missed you!"
+            puts monster_to_hit
         end
 
-        prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+        prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
         system('clear')
         player.print_player_health
         monster.print_enemy_health
         puts "Now it's your turn!"
-        prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+        prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
     end
 end

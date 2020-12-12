@@ -2,7 +2,7 @@ class Interface
 
     def initialize(prompt)
         @prompt = prompt
-        @menu_input = "BACK"
+        @menu_input = "RETURN"
     end
 
     def action_menu
@@ -22,7 +22,7 @@ class Interface
                 menu.choice "BALANCED"
                 menu.choice "RECKLESS"
                 menu.choice "DEFENSIVE"
-                menu.choice "BACK"
+                menu.choice "RETURN"
             end
         end
 
