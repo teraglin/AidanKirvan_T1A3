@@ -1,5 +1,5 @@
 require "tty-prompt"
-prompt = TTY::Prompt.new
+prompt = TTY::Prompt.new(active_color: :magenta, symbols: {marker: "⬢"})
 require_relative 'dice.rb'
 require_relative 'player.rb'
 require_relative 'enemy.rb'
@@ -16,10 +16,10 @@ D20 = [1..20]
 
 # encounter arrays
 encounter_table_1 = [
-    goblin = {name: 'goblin',:health=>20, :armour=>11, :damage=>D6}, 
-    bullywug = {name: 'bullywug',:health=>20, :armour=>11, :damage=>D6}, 
-    kobald = {name: 'kobald',:health=>15, :armour=>8, :damage=>D4}, 
-    skeleton = {name: 'skeleton',:health=>20, :armour=>10, :damage=>D6}
+    goblin = {name: 'goblin',:health=>15, :armour=>11, :damage=>D6}, 
+    bullywug = {name: 'bullywug',:health=>15, :armour=>11, :damage=>D6}, 
+    kobald = {name: 'kobald',:health=>10, :armour=>8, :damage=>D4}, 
+    skeleton = {name: 'skeleton',:health=>15, :armour=>10, :damage=>D6}
 ]
 
 enemy_roll_1 = encounter_table_1[rand(encounter_table_1.length)]
@@ -27,24 +27,25 @@ enemy_roll_2 = encounter_table_1[rand(encounter_table_1.length)]
 enemy_roll_3 = encounter_table_1[rand(encounter_table_1.length)]
 
 CRITICAL_HIT = 20
-HEALTH_MAX = 50
-FLASK_MAX = 3
-SHIELD_MAX = 3
+HEALTH_MAX = 20
+FLASK_MAX = 5
+SHIELD_MAX = 5
 victory_points = 0
 run = true
 
 # initiate objects 
 dice = Dice.new(prompt)
-player = Player.new
-monster1 = Enemy.new(enemy_roll_1)
-monster2 = Enemy.new(enemy_roll_2)
-monster3 = Enemy.new(enemy_roll_3)
+player = Player.new(prompt)
+monster1 = Enemy.new(enemy_roll_1, prompt)
+monster2 = Enemy.new(enemy_roll_2, prompt)
+monster3 = Enemy.new(enemy_roll_3, prompt)
 combat = Interface.new(prompt)
 
 # load first monster 
 monster = monster1
 
-
+system('clear')
+PLAYER_NAME = prompt.ask("What is your name?", default: "Nicholas Cage")
 
 
 # NAME PROMPT HERE 
@@ -52,9 +53,34 @@ while run
     # clear terminal 
     system('clear')
 
+    prompt.warn("
+                                                                        
+    @@@@@@@@@@    @@@@@@   @@@  @@@   @@@@@@   @@@@@@@  @@@@@@@@  @@@@@@@   
+    @@@@@@@@@@@  @@@@@@@@  @@@@ @@@  @@@@@@@   @@@@@@@  @@@@@@@@  @@@@@@@@  
+    @@! @@! @@!  @@!  @@@  @@!@!@@@  !@@         @@!    @@!       @@!  @@@  
+    !@! !@! !@!  !@!  @!@  !@!!@!@!  !@!         !@!    !@!       !@!  @!@  
+    @!! !!@ @!@  @!@  !@!  @!@ !!@!  !!@@!!      @!!    @!!!:!    @!@!!@!   
+    !@!   ! !@!  !@!  !!!  !@!  !!!   !!@!!!     !!!    !!!!!:    !!@!@!    
+    !!:     !!:  !!:  !!!  !!:  !!!       !:!    !!:    !!:       !!: :!!   
+    :!:     :!:  :!:  !:!  :!:  !:!      !:!     :!:    :!:       :!:  !:!  
+    :::     ::   ::::: ::   ::   ::  :::: ::      ::     :: ::::  ::   :::  
+     :      :     : :  :   ::    :   :: : :       :     : :: ::    :   : :  
+                                                                            
+                                                                            
+    @@@@@@@   @@@@@@@    @@@@@@   @@@  @@@  @@@  @@@                        
+    @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  @@@                        
+    @@!  @@@  @@!  @@@  @@!  @@@  @@!  @@!  @@!  @@!                        
+    !@   @!@  !@!  @!@  !@!  @!@  !@!  !@!  !@!  !@!                        
+    @!@!@!@   @!@!!@!   @!@!@!@!  @!!  !!@  @!@  @!!                        
+    !!!@!!!!  !!@!@!    !!!@!!!!  !@!  !!!  !@!  !!!                        
+    !!:  !!!  !!: :!!   !!:  !!!  !!:  !!:  !!:  !!:                        
+    :!:  !:!  :!:  !:!  :!:  !:!  :!:  :!:  :!:   :!:                       
+     :: ::::  ::   :::  ::   :::   :::: :: :::    :: ::::                   
+    :: : ::    :   : :   :   : :    :: :  : :    : :: : :                   
+                                                                            
+    ")
     # introduce monster 
     puts "The gate opens and you see a #{monster.mon_name}"
-
     prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
     while run
@@ -84,7 +110,7 @@ while run
                 if player.shield > 0
                     system('clear')
                     menu_input = "RETURN"
-                    puts "You need to wait #{player.shield} more turn(s) for your flask to refill."
+                    prompt.warn("You need to wait #{player.shield} more turn(s) more turn(s) to cast shield again")
                     prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
                 else
                     break
@@ -93,14 +119,14 @@ while run
                 if player.flask > 0
                     system('clear')
                     menu_input = "RETURN"
-                    puts "You need to wait #{player.flask} more turn(s) to cast shield again"
+                    prompt.warn("You need to wait #{player.flask} for your flask to refill.")
                     prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
                 else
                     break
                 end
             elsif menu_input == "SURRENDER"
                 system('clear')
-                menu_input = prompt.select('Are you sure you want to surrender? (You will return to the menu and lose your progress)') do |menu|
+                menu_input = prompt.select('Are you sure you want to surrender? (You will return to the menu and lose your progress)', active_color: :red) do |menu|
                     menu.choice "GET ME OUTTA HERE!!"
                     menu.choice "I WON'T GIVE UP"
                 end
@@ -108,7 +134,18 @@ while run
                 if menu_input == "GET ME OUTTA HERE!!"
                     system('clear')
                     puts "You toss down your weapon and raise your hands in defeat..."
-                    puts "GAME OVER"
+                    prompt.error("
+                        ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  
+                       ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒
+                      ▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒
+                      ░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  
+                      ░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒
+                       ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░
+                        ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░
+                      ░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ 
+                            ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     
+                                                                           ░                   
+                      ")
                     prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
                     exit
                 else
@@ -146,7 +183,7 @@ while run
             player.heal(heal_value)
             player.print_player_health
             monster.print_enemy_health
-            puts "you healed for #{heal_value}."
+            puts "you regained #{heal_value} points of health."
         elsif player_to_hit == "blocking"
             player.use_shield
             player.print_player_health
@@ -166,7 +203,7 @@ while run
             player.print_player_health
             monster.print_enemy_health
             puts "WHACK!!"
-            puts "You dealt #{player_damage} to the #{monster.mon_name}"
+            puts "You dealt #{player_damage} points of damage to the #{monster.mon_name}"
         else
             puts "Shoot!!"
             puts "You missed!"
@@ -218,7 +255,6 @@ while run
         # resolve player desicions and attack roles
         system('clear')
 
-        
         if monster_to_hit == "blocking"
             monster_damage = Dice.roll(monster.damage)
             player.print_player_health
@@ -250,10 +286,17 @@ while run
 
         prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
 
-        system('clear')
-        player.print_player_health
-        monster.print_enemy_health
-        puts "Now it's your turn!"
-        prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+        if player.health <= 0
+            system('clear')
+            player.print_player_health
+            monster.print_enemy_health
+            combat.defeat
+        else
+            system('clear')
+            player.print_player_health
+            monster.print_enemy_health
+            puts "Now it's your turn!"
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+        end
     end
 end

@@ -1,8 +1,9 @@
 class Enemy
     attr_accessor :mon_name, :health, :armour_class, :damage
 
-    def initialize(enemy_num)
+    def initialize(enemy_num, prompt)
         @mon_name = enemy_num[:name]
+        @prompt = prompt
         @max_enemy_health = enemy_num[:health]
         @health = @max_enemy_health
         @armour_class = enemy_num[:armour]
@@ -21,7 +22,8 @@ class Enemy
     end
 
     def print_enemy_health
-        puts "#{self.mon_name} HP: #{@health}/#{@max_enemy_health}"
-        puts "#{self.mon_name} AC: #{armour_class}"
+        @prompt.error("#{mon_name} =] [{HP: #{@health}/#{@max_enemy_health}}] [{AC: #{armour_class}}]")
+        puts " =" * 20
+        puts " "
     end
 end

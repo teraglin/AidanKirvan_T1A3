@@ -1,7 +1,8 @@
 class Player
     attr_accessor :health, :armour_class, :damage, :flask, :shield
 
-    def initialize
+    def initialize(prompt)
+        @prompt = prompt
         @health = HEALTH_MAX
         @armour_class = 12
         @damage = D6
@@ -29,8 +30,6 @@ class Player
         end
     end
 
-
-
     def player_gets_hit(damage)
         @health -= damage
     end
@@ -43,7 +42,6 @@ class Player
     end
 
     def print_player_health
-        puts "PLAYER HP: #{@health}/#{HEALTH_MAX}"
-        puts "PLAYER AC: #{armour_class}"
+        @prompt.ok("#{PLAYER_NAME} =] [{HP: #{@health}/#{HEALTH_MAX}}] [{AC: #{armour_class}}]")
     end
 end
