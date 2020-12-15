@@ -16,10 +16,10 @@ D20 = [1..20]
 
 # encounter arrays
 encounter_table_1 = [
-    goblin = {name: 'goblin',:health=>15, :armour=>11, :damage=>D6}, 
-    bullywug = {name: 'bullywug',:health=>15, :armour=>11, :damage=>D6}, 
-    kobald = {name: 'kobald',:health=>10, :armour=>8, :damage=>D4}, 
-    skeleton = {name: 'skeleton',:health=>15, :armour=>10, :damage=>D6}
+    goblin = {name: 'goblin',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>5}, 
+    bullywug = {name: 'bullywug',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>5}, 
+    kobald = {name: 'kobald',:health=>10, :armour=>8, :damage=>D4, :special_name=>"multi", :special_cool=>5}, 
+    skeleton = {name: 'skeleton',:health=>15, :armour=>10, :damage=>D6, :special_name=>"multi", :special_cool=>5}
 ]
 
 enemy_roll_1 = encounter_table_1[rand(encounter_table_1.length)]
@@ -52,33 +52,6 @@ PLAYER_NAME = prompt.ask("What is your name?", default: "Nicholas Cage")
 while run
     # clear terminal 
     system('clear')
-
-    prompt.warn("
-                                                                        
-    @@@@@@@@@@    @@@@@@   @@@  @@@   @@@@@@   @@@@@@@  @@@@@@@@  @@@@@@@   
-    @@@@@@@@@@@  @@@@@@@@  @@@@ @@@  @@@@@@@   @@@@@@@  @@@@@@@@  @@@@@@@@  
-    @@! @@! @@!  @@!  @@@  @@!@!@@@  !@@         @@!    @@!       @@!  @@@  
-    !@! !@! !@!  !@!  @!@  !@!!@!@!  !@!         !@!    !@!       !@!  @!@  
-    @!! !!@ @!@  @!@  !@!  @!@ !!@!  !!@@!!      @!!    @!!!:!    @!@!!@!   
-    !@!   ! !@!  !@!  !!!  !@!  !!!   !!@!!!     !!!    !!!!!:    !!@!@!    
-    !!:     !!:  !!:  !!!  !!:  !!!       !:!    !!:    !!:       !!: :!!   
-    :!:     :!:  :!:  !:!  :!:  !:!      !:!     :!:    :!:       :!:  !:!  
-    :::     ::   ::::: ::   ::   ::  :::: ::      ::     :: ::::  ::   :::  
-     :      :     : :  :   ::    :   :: : :       :     : :: ::    :   : :  
-                                                                            
-                                                                            
-    @@@@@@@   @@@@@@@    @@@@@@   @@@  @@@  @@@  @@@                        
-    @@@@@@@@  @@@@@@@@  @@@@@@@@  @@@  @@@  @@@  @@@                        
-    @@!  @@@  @@!  @@@  @@!  @@@  @@!  @@!  @@!  @@!                        
-    !@   @!@  !@!  @!@  !@!  @!@  !@!  !@!  !@!  !@!                        
-    @!@!@!@   @!@!!@!   @!@!@!@!  @!!  !!@  @!@  @!!                        
-    !!!@!!!!  !!@!@!    !!!@!!!!  !@!  !!!  !@!  !!!                        
-    !!:  !!!  !!: :!!   !!:  !!!  !!:  !!:  !!:  !!:                        
-    :!:  !:!  :!:  !:!  :!:  !:!  :!:  :!:  :!:   :!:                       
-     :: ::::  ::   :::  ::   :::   :::: :: :::    :: ::::                   
-    :: : ::    :   : :   :   : :    :: :  : :    : :: : :                   
-                                                                            
-    ")
     # introduce monster 
     puts "The gate opens and you see a #{monster.mon_name}"
     prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
@@ -232,25 +205,42 @@ while run
 
             break
         else
+            monster.special_timer
+
             system('clear')
             player.print_player_health
             monster.print_enemy_health
             puts "Now it's the #{monster.mon_name}'s' turn."
             prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
         end
-        
-        case menu_input
-        when "HEAL"
-            monster_to_hit = Dice.roll(D20)
-        when "BLOCK"
-            monster_to_hit = "blocking"
-        when "BALANCED"
-            monster_to_hit = Dice.roll(D20)
-        when "RECKLESS"
-            monster_to_hit = Dice.advantage(D20)
-        when "DEFENSIVE"
-            monster_to_hit = Dice.disadvantage(D20)
+    # elsif statements for how the monster will attack
+
+        #CHECK FOR SPERCIAL ATTACK
+        if monster.special_use == 0
+            # CHECK IF BLOCKING 
+            if menu_input == "BLOCK"
+                monster_to_hit = "blocking"
+                monster.special_recharge
+            else
+                monster_to_hit = monster.special_name
+                monster.special_recharge
+            end
+        else
+            case menu_input
+            when "HEAL"
+                monster_to_hit = Dice.roll(D20)
+            when "BLOCK"
+                monster_to_hit = "blocking"
+            when "BALANCED"
+                monster_to_hit = Dice.roll(D20)
+            when "RECKLESS"
+                monster_to_hit = Dice.advantage(D20)
+            when "DEFENSIVE"
+                monster_to_hit = Dice.disadvantage(D20)
+            end
         end
+
+        # !!!!!!MAYBE WRAP THE REST BELOW IN IF STATEMENT!!!!!
 
         # resolve player desicions and attack roles
         system('clear')
@@ -260,7 +250,6 @@ while run
             player.print_player_health
             monster.print_enemy_health
             puts "Your foe can't get through your magical barrier."
-            puts "You avoid #{monster_damage} points of damage."
         elsif monster_to_hit == CRITICAL_HIT
             # player_damage_score = player.damage
             monster_damage = Dice.roll(monster.damage) + Dice.roll(monster.damage)
@@ -269,7 +258,7 @@ while run
             monster.print_enemy_health
             puts "CRITICAL HIT!!"
             puts "You take #{monster_damage} points of damage."
-        elsif monster_to_hit >= player.armour_class
+        elsif monster_to_hit.to_i >= player.armour_class
             # player_damage_score = player.damage
             monster_damage = Dice.roll(monster.damage)
             player.player_gets_hit(monster_damage)
@@ -278,6 +267,64 @@ while run
             puts monster_to_hit
             puts "OOF!"
             puts "You take #{monster_damage} points of damage."
+        elsif monster_to_hit == "multi"
+            multi1 = Dice.roll(monster.damage)
+            multi2 = Dice.roll(monster.damage)
+            multi3 = Dice.roll(monster.damage)
+
+            # FIRST HIT 
+            monster_to_hit = (Dice.roll(D20).to_i + 2)
+            if monster_to_hit >= player.armour_class
+                player.player_gets_hit(multi1)
+                player.print_player_health
+                monster.print_enemy_health
+                puts "OOF!"
+                puts "You take #{multi1} points of damage from the fist hit..."
+            else
+                player.print_player_health
+                monster.print_enemy_health
+                puts "Phew!"
+                puts "The first attack missed you..."
+            end
+
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+            system('clear')
+
+            # SECOND HIT 
+            monster_to_hit = (Dice.roll(D20).to_i + 2)
+            if monster_to_hit >= player.armour_class
+                player.player_gets_hit(multi2)
+                player.print_player_health
+                monster.print_enemy_health
+                puts "You take #{multi2} points of damage from the second hit..."
+            else
+                player.print_player_health
+                monster.print_enemy_health
+                puts "The second attack missed you..."
+            end
+
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+            system('clear')
+
+            # THIRD HIT 
+            monster_to_hit = (Dice.roll(D20).to_i + 2)
+            if monster_to_hit >= player.armour_class
+                player.player_gets_hit(multi3)
+                player.print_player_health
+                monster.print_enemy_health
+                puts "And finally #{multi3} points of damage from the third hit!"
+            else
+                player.print_player_health
+                monster.print_enemy_health
+                puts "The third attack missed you!"
+            end
+            
+        elsif monster_to_hit == "breath"
+            player.print_player_health
+            monster.print_enemy_health
+        elsif monster_to_hit == "web"
+            player.print_player_health
+            monster.print_enemy_health
         else
             puts "Phew!!"
             puts "The #{monster.mon_name} missed you!"
