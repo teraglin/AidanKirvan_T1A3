@@ -40,7 +40,7 @@ Utilisation of the project is achieved through the use of **gems** that substitu
 
 ## FEATURES
 
-MVPS
+#### MVPS
 - **DICE ROLLS:** Dungeons & Dragons uses a variety of polyhedral dice with varying shapes and values. These are referred to with a 'D' followed by the number of sides on the dice (eg, D4, D6, D20, D100 etc...).
 In order to emulate these dice, an array is made for each dice weighting and contains one index containing a range from **1** to the number of sides the dice has.
 eg.
@@ -127,17 +127,46 @@ The first thing to address here is the core flow of combat in D&D5e. In simpler 
             puts "You miss!"
         end
 
-- **RANDOMISED ENCOUNTERS:** To keep things exciting, a variety of monsters will be grouped into three tiers
+- **PLAYER STATS AND ABILITIES:** We need to determine when the user loses the game, how much health the user has, when the user is able to use abilities and other attributes that could be affected by items. To do this we group a number of values into a class called **Player**:
 
-SHALL I DO DIFFERENT PAGES OR CLASSES??
+    - Maximum Health: Determines where the users health value starts and the maximum amount it can heal to.
+    - Health: A value that can change depending on how much damage the user takes. When this reaches 0 or lower, the player loses.
+    - Armour Class: The amount of armour the user has. The enemy needs to roll the value of the Player's armour class or higher for them to take damage.
+    - Damage: The type of dice the player rolls when an attack hit's a monster.
+    - Flask: For the sake of the game, this is a flask of potion that refills its self after it is used. It takes a number of turns for the flask to refill.
+    This value changes when the heal action is used and it gradually ticks back down to **0** over each turn that passes. When the flask's value is equal to 0, it can be used again.
+    - Shield: Has a similar function to the flask, only it aligns with the player's ability to block all incoming damage.
 
-- **CLEAN COMBAT INTERFACE:**
-USE TTY
-- **VISIBLE HEALTH SCORES FOR THE USER AND THE ENEMY:**
-USE system('clear') and tty
-- **RANDOMISED ITEMS:**
-array? Module?
-- **SPECIAL ATTACKS:**
+- **RANDOMISED ENCOUNTERS:** To keep things exciting, a variety of monsters will be grouped into three tiers:
+    
+    - *1st level monsters:* Easier monsters. capable of killing careless players but this stage is not too difficult.
+    - *2st level monsters:* A bit harder. You'll have to learn patterns to get past these smoothly.
+    - *3st level monsters:* Much harder. You will have to really pick and choose when to block and when to be defensive.
+
+    Monster statistics are kept in a class called '"Enemy". They contain some stats similar to the player and others of their own.
+
+    - Monster Name: Name of the monster so the program knows what it's calling and the user knows what they are up against.
+    - Maximum Enemy Health: The maximum amount of health points the monster has.
+    - Enemy Health: A second health variable is made that can be affected by damage and healing. 
+    - Armour Class: The value that determines how hard the monster is to hit. A dice roll to hit the monster has to be equal to or higher than this number.
+    - Damage: When a monster scores a hit on the player, this determines which value of dice the monster rolls.
+    - Special attack name and a special attack cooldown: These two will be explained in the next point.
+
+- **MONSTER SPECIAL ATTACKS:** In Dungeons and Dragons 5e, creature rules are referred to in "Stat blocks". These list the creatures statistics, abilities and attack patterns. Some enemies have more powerful moves than others, these can include breathing fire, healing themselves, shooting web or attacking multiple times.
+    For the most part the Dungeon Master, who runs the game, determines when and how to use these abilities. But seeing as how the user is up against a scripted program, replicating these elements has to be tackled in a different manner...
+    I called these attacks special attacks, as it's a universally recognised term with games. I could allow these attacks to trigger randomly, but that would remove a lot of the control from the player and leave their fate to chance. Instead, I figure creating varying patterns would mean the attack doesn't get used all the time, and the player could learn these patterns if they wanted to be better at playing the game.
+    In order to manage this we add two features to the *Enemy* class:
+
+    - Special attack *name*.
+    - Special attack *cooldown*
+
+    When the program ends the users turn, it checks if the monster's **@health** value is **0** or lower. If it is is 0 or lower, the next monster comes out, otherwise it will determine what the monster is going to do.
+    First it checks the **speacial attack cooldown** to see if the number value is **0**. If the value is higher than **0** it initialises the monsters normal attack logic. Otherwise it checks the monster's **special attack name**.
+    Depending on the name it will roll a certain number of a certain value of dice and return the result with flavour text. Then it will return the cooldown counter back to the **special attack counter** value listed in the monster's stats. 
+
+- **VISIBLE HEALTH SCORES FOR THE USER AND THE ENEMY:** Using the *maximum health* and flexible *health* statistic for both the player and the randomised enemy, max health and current health will be displayed at the top of the screen every time the screen is cleared. This way players can keep and eye on their situation or results when they are in sub-menus or have won or lost.
+
+
 <!--
 Must list and describe at least THREE features
 
@@ -146,8 +175,12 @@ Show an understanding of
 - loops and conditional control structures
 - error handling
 -->
-NICE TO HAVES
-- **HALL OF FAME FOR PEOPLE WHO CLEAR THE GAME:**
+#### NICE TO HAVES
+
+- **RANDOMISED ITEMS:** An array of items that make changes to the player's stats for the rest of the game. No two items should be printed which will be tricky. As soon as an item is selected it woukld have to delete itself from the array.
+- **END OF GAME SUMMARY:** A summary of damage delt/taken, hits that hit or missed, total heals and blocks etc...
+- **HALL OF FAME FOR PEOPLE WHO CLEAR THE GAME:** A system where people can enter their name into a hall of fame. A value would be next to that player's name to indicate how many times they've cleared the game.
+- **ENDLESS MODE:** A mode where the player can continue to play for as long as they are able to stay alive.
 
 ---
 
@@ -165,7 +198,7 @@ Musing include:
 
 ## DIAGRAM
 
-![alt text](./docs/monster_brawl_diag.png "flow chart for monster brawl")
+![alt text](./docs/monster_brawl.png "flow chart for monster brawl")
 <!-- Flow control diagram
 - must show logic/workflow and/or the integration of the features in your application for each feature
 - utilise a recognised format or set of conventions for a control flow diagram such as UML -->
