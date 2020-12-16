@@ -17,7 +17,6 @@ class Interface
         # ATTACK SUB-MENU 
         if @menu_input == "ATTACK"
             system('clear')
-
             @menu_input = @prompt.select('What is your plan of attack?') do |menu|
                 menu.choice "BALANCED"
                 menu.choice "RECKLESS"

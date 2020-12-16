@@ -16,10 +16,10 @@ D20 = [1..20]
 
 # encounter arrays
 encounter_table_1 = [
-    goblin = {name: 'goblin',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>5}, 
-    bullywug = {name: 'bullywug',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>5}, 
-    kobald = {name: 'kobald',:health=>10, :armour=>8, :damage=>D4, :special_name=>"multi", :special_cool=>5}, 
-    skeleton = {name: 'skeleton',:health=>15, :armour=>10, :damage=>D6, :special_name=>"multi", :special_cool=>5}
+    goblin = {name: 'goblin',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>1}, 
+    bullywug = {name: 'bullywug',:health=>15, :armour=>11, :damage=>D6, :special_name=>"multi", :special_cool=>1}, 
+    kobald = {name: 'kobald',:health=>10, :armour=>8, :damage=>D4, :special_name=>"multi", :special_cool=>1}, 
+    skeleton = {name: 'skeleton',:health=>15, :armour=>10, :damage=>D6, :special_name=>"multi", :special_cool=>1}
 ]
 
 enemy_roll_1 = encounter_table_1[rand(encounter_table_1.length)]
@@ -120,7 +120,7 @@ while run
                                                                            ░                   
                       ")
                     prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
-                    load(index.rb)
+                    load('index.rb')
                 else
                     menu_input = "RETURN"
                 end
@@ -222,7 +222,7 @@ while run
                 monster_to_hit = "blocking"
                 monster.special_recharge
             else
-                monster_to_hit = monster.special_name
+                monster_to_hit = menu_input.to_s + monster.special_name.to_s
                 monster.special_recharge
             end
         else
@@ -267,68 +267,84 @@ while run
             puts monster_to_hit
             puts "OOF!"
             puts "You take #{monster_damage} points of damage."
-        elsif monster_to_hit == "multi"
+        elsif monster_to_hit == "BALANCEDmulti" || monster_to_hit == "HEALmulti"
             multi1 = Dice.roll(monster.damage)
             multi2 = Dice.roll(monster.damage)
             multi3 = Dice.roll(monster.damage)
 
-            # FIRST HIT 
-            monster_to_hit = (Dice.roll(D20).to_i + 2)
-            if monster_to_hit >= player.armour_class
-                player.player_gets_hit(multi1)
-                player.print_player_health
-                monster.print_enemy_health
-                puts "OOF!"
-                puts "You take #{multi1} points of damage from the fist hit..."
-            else
-                player.print_player_health
-                monster.print_enemy_health
-                puts "Phew!"
-                puts "The first attack missed you..."
+            multi_hash = {"first"=>multi1, "second"=>multi2, "third"=>multi3}
+
+            multi_hash.each do |turn, damage|
+                monster_to_hit = (Dice.roll(D20).to_i + 2)
+                if monster_to_hit >= player.armour_class
+                    player.player_gets_hit(damage)
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "OOF!"
+                    puts "You take #{damage} points of damage from the #{turn} hit."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                else
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "Phew!"
+                    puts "The #{turn} attack missed you."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                end
             end
+        elsif monster_to_hit == "RECKLESSmulti"
+            multi1 = Dice.roll(monster.damage)
+            multi2 = Dice.roll(monster.damage)
+            multi3 = Dice.roll(monster.damage)
 
-            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
-            system('clear')
+            multi_hash = {"first"=>multi1, "second"=>multi2, "third"=>multi3}
 
-            # SECOND HIT 
-            monster_to_hit = (Dice.roll(D20).to_i + 2)
-            if monster_to_hit >= player.armour_class
-                player.player_gets_hit(multi2)
-                player.print_player_health
-                monster.print_enemy_health
-                puts "You take #{multi2} points of damage from the second hit..."
-            else
-                player.print_player_health
-                monster.print_enemy_health
-                puts "The second attack missed you..."
+            multi_array.each do |turn, damage|
+                monster_to_hit = (Dice.advantage(D20).to_i + 2)
+                if monster_to_hit >= player.armour_class
+                    player.player_gets_hit(damage)
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "OOF!"
+                    puts "You take #{damage} points of damage from the #{turn} hit."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                else
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "Phew!"
+                    puts "The #{turn} attack missed you."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                end
             end
+        elsif monster_to_hit == "DEFENSIVEmulti"
+            multi1 = Dice.roll(monster.damage)
+            multi2 = Dice.roll(monster.damage)
+            multi3 = Dice.roll(monster.damage)
 
-            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
-            system('clear')
+            multi_hash = {"first"=>multi1, "second"=>multi2, "third"=>multi3}
 
-            # THIRD HIT 
-            monster_to_hit = (Dice.roll(D20).to_i + 2)
-            if monster_to_hit >= player.armour_class
-                player.player_gets_hit(multi3)
-                player.print_player_health
-                monster.print_enemy_health
-                puts "And finally #{multi3} points of damage from the third hit!"
-            else
-                player.print_player_health
-                monster.print_enemy_health
-                puts "The third attack missed you!"
+            multi_array.each do |turn, damage|
+                monster_to_hit = (Dice.disadvantage(D20).to_i + 2)
+                if monster_to_hit >= player.armour_class
+                    player.player_gets_hit(damage)
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "OOF!"
+                    puts "You take #{damage} points of damage from the #{turn} hit."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                else
+                    player.print_player_health
+                    monster.print_enemy_health
+                    puts "Phew!"
+                    puts "The #{turn} attack missed you."
+                    prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+                    system('clear')
+                end
             end
-            
-        elsif monster_to_hit == "breath"
-            player.print_player_health
-            monster.print_enemy_health
-        elsif monster_to_hit == "web"
-            player.print_player_health
-            monster.print_enemy_health
-        else
-            puts "Phew!!"
-            puts "The #{monster.mon_name} missed you!"
-            puts monster_to_hit
         end
 
         prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
