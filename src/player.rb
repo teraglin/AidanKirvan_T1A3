@@ -44,4 +44,22 @@ class Player
     def print_player_health
         @prompt.ok("#{PLAYER_NAME} =] [{HP: #{@health}/#{HEALTH_MAX}}] [{AC: #{armour_class}}]")
     end
+
+    def print_player_tools
+        if @flask == 0
+            print("FLASK: READY | ")
+        else
+            print("FLASK: #{@flask} | ")
+        end
+
+        if @shield == 0
+            puts("SHIELD: READY")
+            puts " =" * 20
+            puts " "
+        else
+            puts("SHIELD: #{@shield}")
+            puts " =" * 20
+            puts " "
+        end
+    end
 end
