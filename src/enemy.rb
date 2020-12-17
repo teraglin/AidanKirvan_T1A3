@@ -25,7 +25,7 @@ class Enemy
     end
 
     def print_enemy_health
-        @prompt.error("#{mon_name} =] [{HP: #{@health}/#{@max_enemy_health}}] [{AC: #{armour_class}}]")
+        @prompt.error("#{mon_name} =] [{HEALTH: #{@health}/#{@max_enemy_health}}] [{ARMOUR: #{armour_class}}]")
     end
 
     def special_recharge

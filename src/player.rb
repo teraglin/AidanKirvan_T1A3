@@ -1,3 +1,5 @@
+# require 'colorize'
+
 class Player
     attr_accessor :health, :armour_class, :damage, :flask, :shield
 
@@ -42,22 +44,24 @@ class Player
     end
 
     def print_player_health
-        @prompt.ok("#{PLAYER_NAME} =] [{HP: #{@health}/#{HEALTH_MAX}}] [{AC: #{armour_class}}]")
+        @prompt.ok("#{PLAYER_NAME} =] [{HEALTH: #{@health}/#{HEALTH_MAX}}] [{ARMOUR: #{armour_class}}]")
     end
 
     def print_player_tools
         if @flask == 0
-            print("FLASK: READY | ")
+            print "FLASK: READY".colorize(:blue)
+            print " | "
         else
-            print("FLASK: #{@flask} | ")
+            print "FLASK: #{@flask}".colorize(:blue)
+            print " | "
         end
 
         if @shield == 0
-            puts("SHIELD: READY")
+            puts "SHIELD: READY".colorize(:blue)
             puts " =" * 20
             puts " "
         else
-            puts("SHIELD: #{@shield}")
+            puts "SHIELD: #{@shield}".colorize(:blue)
             puts " =" * 20
             puts " "
         end

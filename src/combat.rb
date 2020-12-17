@@ -37,7 +37,7 @@ class Interface
         system('clear')
         puts "You return to your cell and the gate closes."
         @prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
-        exit
+        load('index.rb')
     end
 
     def defeat
@@ -58,7 +58,7 @@ class Interface
                                                                ░                   
           ")
         @prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
-        exit
+        load('index.rb')
     end
 
 end
