@@ -585,7 +585,7 @@ prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return
     
                     player.flask_cooldown
                     player.shield_cooldown
-                    monster.special_recharge
+                    monster.special_timer
                     print_new_screen(player, monster)
                     puts "You are restained!"
                     puts "You can't do anything this turn ..."
