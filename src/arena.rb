@@ -11,7 +11,7 @@ D4 = [1..4]
 D6 = [1..6]
 D8 = [1..8]
 D10 = [1..10]
-D12 = [1..2]
+D12 = [1..12]
 D100 = [1..100]
 D20 = [1..20]
 
@@ -24,8 +24,8 @@ encounter_table_1 = [
 ]
 
 encounter_table_2 = [
-    owlbear = {name: 'OWLBEAR',:health=>15, :armour=>10, :damage=>D10, :special_name=>"multi", :special_cool=>5}, 
-    giant_spider = {name: 'GIANT_SPIDER',:health=>10, :armour=>10, :damage=>D8, :special_name=>"restrain", :special_cool=>5}, 
+    owlbear = {name: 'OWLBEAR',:health=>15, :armour=>10, :damage=>D8, :special_name=>"multi", :special_cool=>5}, 
+    giant_spider = {name: 'GIANT_SPIDER',:health=>10, :armour=>10, :damage=>D6, :special_name=>"restrain", :special_cool=>5}, 
     nothic = {name: 'NOTHIC',:health=>10, :armour=>11, :damage=>D8, :special_name=>"multi", :special_cool=>5}, 
     minotaur = {name: 'MINOTAUR',:health=>15, :armour=>12, :damage=>D12, :special_name=>"multi", :special_cool=>5}
 ]
@@ -42,7 +42,7 @@ enemy_roll_2 = encounter_table_2[rand(encounter_table_1.length)]
 enemy_roll_3 = encounter_table_3[rand(encounter_table_1.length)]
 
 CRITICAL_HIT = 20
-HEALTH_MAX = 20
+HEALTH_MAX = 50
 FLASK_MAX = 5
 SHIELD_MAX = 5
 victory_points = 0
@@ -157,18 +157,19 @@ while run
                     system('clear')
                     puts "You toss down your weapon and raise your hands in defeat..."
                     prompt.error("
-        ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  
-       ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒
-      ▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒
-      ░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  
-      ░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒
-       ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░
-        ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░
-      ░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ 
-            ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     
-                                                                           ░                   
+    ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  
+   ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒
+  ▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒
+  ░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  
+  ░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒
+   ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░
+    ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░
+  ░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ 
+        ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     
+                                                                       ░                   
                       ")
-                    prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
+
+prompt.keypress("Press SPACE or ENTER to return to menu", keys: [:space, :return])
                     load('index.rb')
                 else
                     menu_input = "RETURN"
@@ -305,7 +306,6 @@ while run
         while run
             if monster_to_hit.is_a?(Integer)
                 if monster_to_hit.to_i == CRITICAL_HIT
-                    player_restrained = 0
 
                     monster_damage = Dice.roll(monster.damage) + Dice.roll(monster.damage)
                     player.player_gets_hit(monster_damage)
@@ -319,7 +319,6 @@ while run
                     prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
                     break
                 elsif monster_to_hit.to_i >= player.armour_class
-                    player_restrained = 0
 
                     monster_damage = Dice.roll(monster.damage)
                     player.player_gets_hit(monster_damage)
@@ -554,6 +553,7 @@ while run
     
                     player.flask_cooldown
                     player.shield_cooldown
+                    monster.special_recharge
                     print_new_screen(player, monster)
                     puts "You are restained!"
                     puts "You can't do anything this turn ..."

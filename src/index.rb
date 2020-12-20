@@ -35,7 +35,7 @@ end
 if input == "START"
     load('arena.rb')
 elsif input == "HOW TO PLAY"
-    exit
+    load('tutorial.rb')
 elsif input == "DICE"
     load('dice_roll.rb')
 elsif input == "QUIT"
