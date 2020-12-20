@@ -1,7 +1,3 @@
-# require_relative 'arena.rb'
-# require_relative 'player.rb'
-# require_relative 'enemy.rb'
-
 class Dice
     def initialize(prompt)
         @prompt = prompt

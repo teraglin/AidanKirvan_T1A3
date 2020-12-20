@@ -12,16 +12,16 @@ def roll(dice)
     result = rand(dice[0])
     return result
 end
-
+system('clear')
 puts "what dice would you like to roll?"
 puts "choose [4, 6, 8, 10, 12, 100, 20]"
 puts "enter [0] to quit"
 
 while run == true
+    
     print "> D"
 
     sides = gets.chomp.to_i
-
     if sides == 4
         puts roll(d4)
     elsif sides == 6
@@ -38,7 +38,7 @@ while run == true
         puts roll(d20)
     elsif sides == 0
         puts "See you later!!"
-        exit
+        load('index.rb')
     elsif
         puts "INVALID INPUT TRY AGAIN"
     end
