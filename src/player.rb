@@ -49,20 +49,20 @@ class Player
 
     def print_player_tools
         if @flask == 0
-            print "FLASK: READY".colorize(:blue)
-            print " | "
+            print "   FLASK: READY".colorize(:blue)
+            print "   |   "
         else
-            print "FLASK: #{@flask}".colorize(:blue)
-            print " | "
+            print "   FLASK: #{@flask}".colorize(:blue)
+            print "       |   "
         end
 
         if @shield == 0
             puts "SHIELD: READY".colorize(:blue)
-            puts " =" * 20
+            puts " =" * 23
             puts " "
         else
             puts "SHIELD: #{@shield}".colorize(:blue)
-            puts " =" * 20
+            puts " =" * 23
             puts " "
         end
     end
