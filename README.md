@@ -62,7 +62,7 @@ The first thing to address here is the core flow of combat in D&D5e. In simpler 
     - comparing the total score against a targets **armour class** (AC).
     - if the outcome is a successful hit, you then roll additional dice to determine how much damage you have done.
 
-    *For 5th edition D&D, an attack action in a tun would look like this:*
+    *For 5th edition D&D, an attack action in a turn would look like this:*
     1) Attacker rolls a D20 to hit the monster.
     1) The Attacker then adds modifiers to the roll depending on their stats and whether they are proficient in the weapon they are using.
     1) If the total value of the roll plus the modifiers is equal or higher than their armour class, the attack hits. Otherwise it misses.
@@ -153,7 +153,7 @@ The first thing to address here is the core flow of combat in D&D5e. In simpler 
     - Special attack *name*.
     - Special attack *cooldown*
 
-    When the program ends the users turn, it checks if the monster's **@health** value is **0** or lower. If it is is 0 or lower, the next monster comes out, otherwise it will determine what the monster is going to do.
+    When the program ends the users turn, it checks if the monster's **@health** value is **0** or lower. If it is is **0** or lower, the next monster comes out, otherwise it will determine what the monster is going to do.
     First it checks the **speacial attack cooldown** to see if the number value is **0**. If the value is higher than **0** it initialises the monsters normal attack logic. Otherwise it checks the monster's **special attack name**.
     Depending on the name it will roll a certain number of a certain value of dice and return the result with flavour text. Then it will return the cooldown counter back to the **special attack counter** value listed in the monster's stats. 
 
@@ -291,6 +291,7 @@ your checklists should have at least 5 items for each feature -->
 - MacOS or Linux
 - Windows users will have to install [WSL](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
 - [Ruby 2.7.2](https://www.ruby-lang.org/en/)
+- It is reccomended to play *Fight Monsters or Whatever* with your terminal in fullscreen mode or with the window at fullscreen width and height.
 
 #### How to Install
 1. **DOWNLOAD**
@@ -298,11 +299,11 @@ You can download or clone the repository [here](https://github.com/teraglin/Figh
  If you are unsure how to clone the repository you can download the zip file by clicking the green **Code** button and selecting **Download ZIP**. From there you can unzip the file in your desired location
 ![image unavailable](./docs/download_zip_from_repo.png 'download ZIP from repo')
 2. **LOCATE FOLDER IN YOUR TERMINAL**
-You will need to open your terminal and locate the src folder in the Fight-Monsters-or-Whatever folder. If you are unsure how to do this, save the folder on your desktop and copy and paste
+You will need to open your terminal and locate the *src* folder in the *Fight-Monsters-or-Whatever* folder. If you are unsure how to do this, save the folder on your desktop and copy and paste
 `cd ./desktop/Fight-Monsters-or-Whatever/src`
 into your terminal and press return.
 3. **INSTALL**
-When you are in the src folder in Fight-Monsters-or-Whatever on your terminal. You will need to install the application by entering:
+When you are in the src folder in *Fight-Monsters-or-Whatever* on your terminal. You will need to install the application by entering:
 `bash fmow_install.sh` if you are using Bash
 or
 `zsh fmow_install.sh` if you are using Zshell (Zsh)
