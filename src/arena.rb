@@ -25,7 +25,7 @@ encounter_table_1 = [
 
 encounter_table_2 = [
     owlbear = {name: 'OWLBEAR',:health=>15, :armour=>10, :damage=>D8, :special_name=>"multi", :special_cool=>5}, 
-    giant_spider = {name: 'GIANT_SPIDER',:health=>10, :armour=>10, :damage=>D6, :special_name=>"restrain", :special_cool=>5}, 
+    giant_spider = {name: 'GIANT SPIDER',:health=>10, :armour=>10, :damage=>D6, :special_name=>"restrain", :special_cool=>5}, 
     nothic = {name: 'NOTHIC',:health=>10, :armour=>11, :damage=>D8, :special_name=>"multi", :special_cool=>5}, 
     minotaur = {name: 'MINOTAUR',:health=>15, :armour=>12, :damage=>D12, :special_name=>"multi", :special_cool=>5}
 ]
@@ -47,7 +47,6 @@ FLASK_MAX = 5
 SHIELD_MAX = 5
 victory_points = 0
 run = true
-player_restrained = 0
 
 # initiate objects 
 dice = Dice.new(prompt)
@@ -87,6 +86,17 @@ def print_player_roll_miss(player, monster, player_to_hit)
     puts " "
 end
 
+def name_validation(name)
+
+    if name.size > 12
+        return false
+    elsif name.count("0-9") > 0
+        return false
+    else
+        return true
+    end
+end
+
 # MONSTER METHODS 
 def print_monster_roll_hit(player, monster, monster_to_hit)
     print "#{monster.mon_name}'s ROLL: ".colorize(:yellow)
@@ -104,11 +114,34 @@ def print_monster_roll_miss(player, monster, monster_to_hit)
     puts " "
 end
 
+while run
 
-system('clear')
-PLAYER_NAME = prompt.ask("What is your name?", default: "Nicholas Cage")
+    system('clear')
+    puts "What is your name?".colorize(:green)
+    name_input = gets.chomp.to_s
 
+    if name_input == ""
+        PLAYER_NAME = "NICK CAGE   "
+        break
+    elsif
+        if name_validation(name_input) == false
+            prompt.error("INVALID INPUT")
+            prompt.error("Your name must be:")
 
+            print "-"
+            print " LESS ".colorize(:red)
+            puts "than 13 characters"
+
+            print "-"
+            print " CONTAIN ".colorize(:red)
+            puts "only alphabetical characters"
+            prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
+        else
+            PLAYER_NAME = name_input.upcase + (" " * (12 - name_input.size))
+            break
+        end
+    end
+end
 # NAME PROMPT HERE 
 while run
     # clear terminal 

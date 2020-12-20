@@ -25,7 +25,8 @@ class Enemy
     end
 
     def print_enemy_health
-        @prompt.error("#{mon_name} =] [{HEALTH: #{@health}/#{@max_enemy_health}}] [{ARMOUR: #{armour_class}}]")
+        print "#{mon_name}".colorize(:red) + (" " * (12 - mon_name.size))
+        puts " =] [{HEALTH: #{@health}/#{@max_enemy_health}}] [{ARMOUR: #{armour_class}}]".colorize(:red)
     end
 
     def special_recharge
