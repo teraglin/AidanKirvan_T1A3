@@ -115,13 +115,12 @@ def print_monster_roll_miss(player, monster, monster_to_hit)
 end
 
 while run
-
     system('clear')
     puts "What is your name?".colorize(:green)
     name_input = gets.chomp.to_s
 
     if name_input == ""
-        PLAYER_NAME = "NICK CAGE   "
+        PLAYER_NAME = "NICK CAGE"
         break
     elsif
         if name_validation(name_input) == false
@@ -137,7 +136,7 @@ while run
             puts "only alphabetical characters"
             prompt.keypress("Press SPACE or ENTER to continue", keys: [:space, :return])
         else
-            PLAYER_NAME = name_input.upcase + (" " * (12 - name_input.size))
+            PLAYER_NAME = name_input.upcase
             break
         end
     end
