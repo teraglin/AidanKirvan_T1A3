@@ -44,7 +44,8 @@ class Player
     end
 
     def print_player_health
-        @prompt.ok("#{PLAYER_NAME} =] [{HEALTH: #{@health}/#{HEALTH_MAX}}] [{ARMOUR: #{armour_class}}]")
+        print "#{PLAYER_NAME}".colorize(:green) + (" " * (12 - PLAYER_NAME.size))
+        puts " =] [{HEALTH: #{@health}/#{HEALTH_MAX}}] [{ARMOUR: #{armour_class}}]".colorize(:green)
     end
 
     def print_player_tools
