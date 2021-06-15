@@ -1,5 +1,5 @@
 <div class="heading" align="right">
-<h1>AidanKirvan_T1A3</h1>
+<h1>FIGHT MONSTERS OR WHATEVER</h1>
 <h6>Terminal app assignment for coder academy</h6>
 </div>
 
